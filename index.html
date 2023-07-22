@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOSTEL BELA VISTA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    main {
+      padding: 1rem;
+    }
+
+    section {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    @media (min-width: 768px) {
+      main {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HOSTEL BELA VISTA</h1>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>Detalhes da Reserva</h2>
+      <label for="checkIn">Check-in:</label>
+      <input type="date" id="checkIn">
+
+      <label for="checkOut">Check-out:</label>
+      <input type="date" id="checkOut">
+
+      <label for="guests">Número de hóspedes:</label>
+      <input type="number" id="guests" min="1" max="10" value="1">
+    </section>
+
+    <section>
+      <h2>Detalhes de Contato</h2>
+      <label for="name">Nome:</label>
+      <input type="text" id="name">
+
+      <label for="email">Celular:</label>
+      <input type="email" id="email">
+    </section>
+
+    <button type="submit" id="reservarBtn">Reservar</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Reserva de Hotel</p>
+  </footer>
+
+  <script>
+    // Função para criar o link do WhatsApp com os dados da reserva
+    function enviarReservaWhatsApp() {
+      const checkIn = document.getElementById("checkIn").value;
+      const checkOut = document.getElementById("checkOut").value;
+      const guests = document.getElementById("guests").value;
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      // Montar a mensagem com os detalhes da reserva
+      const mensagem = `Olá, gostaria de fazer uma Data de Check-in: ${checkIn}%0AData de Check-out: ${checkOut}%0ANúmero de hóspedes: ${guests}%0ANome: ${name}%0ACelular: ${email}`;
+
+      // Criar o link do WhatsApp com a mensagem
+            const linkWhatsApp = `https://api.whatsapp.com/send?phone=983094712&text=${mensagem}`;
+
+
+      // Abrir o link no WhatsApp
+      window.open(linkWhatsApp);
+    }
+
+    // Associar o evento de clique ao botão de reserva
+    document.getElementById("reservarBtn").addEventListener("click", enviarReservaWhatsApp);
+  </script>
+</body>
+</html>
