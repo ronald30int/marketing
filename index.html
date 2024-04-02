@@ -107,27 +107,39 @@
   </footer>
 
   <script>
-  // Function to send reservation details via email
-  function enviarReservaEmail() {
+function enviarReservaEmail() {
     const checkIn = document.getElementById("checkIn").value;
     const checkOut = document.getElementById("checkOut").value;
     const guests = document.getElementById("guests").value;
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
 
-    // Constructing the email body with reservation details
-    const subject = encodeURIComponent("Reserva de Hostel - Hostel Bela Vista");
-    const body = encodeURIComponent(`Olá, gostaria de fazer uma reserva no Hostel Bela Vista com os seguintes detalhes:%0A%0AData de Check-in: ${checkIn}%0AData de Check-out: ${checkOut}%0ANúmero de hóspedes: ${guests}%0ANome: ${name}%0ACelular: ${email}`);
+    // Criar um objeto FormData para enviar os dados do formulário
+    const formData = new FormData();
+    formData.append('checkIn', checkIn);
+    formData.append('checkOut', checkOut);
+    formData.append('guests', guests);
+    formData.append('name', name);
+    formData.append('email', email);
 
-    // Constructing the mailto link
-    const mailtoLink = `mailto:hostelbelavista@gmail.com?subject=${subject}&body=${body}`;
+    // Enviar uma solicitação POST para o arquivo PHP
+    fetch('send_reservation.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        // Exibir a resposta do servidor (opcional)
+        console.log(data);
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao enviar a reserva.');
+    });
+}
 
-    // Opening the default email client with the pre-filled email
-    window.location.href = mailtoLink;
-  }
-
-  // Associating the click event to the reservation button
-  document.getElementById("reservarBtn").addEventListener("click", enviarReservaEmail);
+document.getElementById("reservarBtn").addEventListener("click", enviarReservaEmail);
 </script>
 
 </body>
