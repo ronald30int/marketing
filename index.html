@@ -107,27 +107,28 @@
   </footer>
 
   <script>
-    // Função para criar o link do WhatsApp com os dados da reserva
-    function enviarReservaWhatsApp() {
-      const checkIn = document.getElementById("checkIn").value;
-      const checkOut = document.getElementById("checkOut").value;
-      const guests = document.getElementById("guests").value;
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
+  // Function to send reservation details via email
+  function enviarReservaEmail() {
+    const checkIn = document.getElementById("checkIn").value;
+    const checkOut = document.getElementById("checkOut").value;
+    const guests = document.getElementById("guests").value;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
 
-      // Montar a mensagem com os detalhes da reserva
-      const mensagem = `Olá, gostaria de fazer uma Data de Check-in: ${checkIn}%0AData de Check-out: ${checkOut}%0ANúmero de hóspedes: ${guests}%0ANome: ${name}%0ACelular: ${email}`;
+    // Constructing the email body with reservation details
+    const subject = encodeURIComponent("Reserva de Hostel - Hostel Bela Vista");
+    const body = encodeURIComponent(`Olá, gostaria de fazer uma reserva no Hostel Bela Vista com os seguintes detalhes:%0A%0AData de Check-in: ${checkIn}%0AData de Check-out: ${checkOut}%0ANúmero de hóspedes: ${guests}%0ANome: ${name}%0ACelular: ${email}`);
 
-      // Criar o link do WhatsApp com a mensagem
-            const linkWhatsApp = `https://api.whatsapp.com/send?phone=983094712&text=${mensagem}`;
+    // Constructing the mailto link
+    const mailtoLink = `mailto:hostelbelavista@gmail.com?subject=${subject}&body=${body}`;
 
+    // Opening the default email client with the pre-filled email
+    window.location.href = mailtoLink;
+  }
 
-      // Abrir o link no WhatsApp
-      window.open(linkWhatsApp);
-    }
+  // Associating the click event to the reservation button
+  document.getElementById("reservarBtn").addEventListener("click", enviarReservaEmail);
+</script>
 
-    // Associar o evento de clique ao botão de reserva
-    document.getElementById("reservarBtn").addEventListener("click", enviarReservaWhatsApp);
-  </script>
 </body>
 </html>
