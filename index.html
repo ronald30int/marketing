@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenho de Quadrados Coloridos</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #color-palette {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            cursor: pointer;
+            border: 1px solid #000;
+        }
+
+        #drawing-area {
+            width: 80%;
+            height: 70%;
+            border: 2px solid #000;
+            position: relative;
+            cursor: crosshair;
+            background-image: url('imagem.png');
+            background-size: cover; /* ajusta a imagem para cobrir toda a área */
+            background-position: center; /* centraliza a imagem */
+        }
+
+        .square {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="color-palette">
+        <div class="color-box" style="background-color: red;" onclick="selectColor('red')"></div>
+        <div class="color-box" style="background-color: blue;" onclick="selectColor('blue')"></div>
+        <div class="color-box" style="background-color: green;" onclick="selectColor('green')"></div>
+        <div class="color-box" style="background-color: yellow;" onclick="selectColor('yellow')"></div>
+        <div class="color-box" style="background-color: purple;" onclick="selectColor('purple')"></div>
+    </div>
+    <div id="drawing-area" onclick="addSquare(event)"></div>
+    <script>
+        let selectedColor = 'red';
+
+        function selectColor(color) {
+            selectedColor = color;
+        }
+
+        function addSquare(event) {
+            const drawingArea = document.getElementById('drawing-area');
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.style.backgroundColor = selectedColor;
+            square.style.left = `${event.clientX - drawingArea.offsetLeft}px`;
+            square.style.top = `${event.clientY - drawingArea.offsetTop}px`;
+            drawingArea.appendChild(square);
+        }
+    </script>
+</body>
+</html>
