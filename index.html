@@ -1,75 +1,147 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desenho de Quadrados Coloridos</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #color-palette {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .color-box {
-            width: 30px;
-            height: 30px;
-            margin: 5px;
-            cursor: pointer;
-            border: 1px solid #000;
-        }
-
-        #drawing-area {
-            width: 80%;
-            height: 70%;
-            border: 2px solid #000;
-            position: relative;
-            cursor: crosshair;
-            background-image: url('imagem.png');
-            background-size: cover; /* ajusta a imagem para cobrir toda a área */
-            background-position: center; /* centraliza a imagem */
-        }
-
-        .square {
-            width: 20px;
-            height: 20px;
-            position: absolute;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviço de Marketing e Divulgação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+    }
+    .container {
+      padding: 20px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    form div {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .payment-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .plans-info {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-    <div id="color-palette">
-        <div class="color-box" style="background-color: red;" onclick="selectColor('red')"></div>
-        <div class="color-box" style="background-color: blue;" onclick="selectColor('blue')"></div>
-        <div class="color-box" style="background-color: green;" onclick="selectColor('green')"></div>
-        <div class="color-box" style="background-color: yellow;" onclick="selectColor('yellow')"></div>
-        <div class="color-box" style="background-color: purple;" onclick="selectColor('purple')"></div>
+  <header>
+    <h1>Marketing e Divulgação Remotos</h1>
+    <p>Preencha o formulário para enviar seu pedido.</p>
+  </header>
+  <div class="container">
+    <!-- Informações dos planos -->
+    <div class="plans-info">
+      <p><strong>Planos Disponíveis:</strong></p>
+      <p><strong>Plano Completo: €99/mês</strong><br>Banners e Redes Sociais</p>
+      <p><strong>Plano Básico: €59/mês</strong><br>Somente Redes Sociais</p>
     </div>
-    <div id="drawing-area" onclick="addSquare(event)"></div>
-    <script>
-        let selectedColor = 'red';
 
-        function selectColor(color) {
-            selectedColor = color;
-        }
+    <form id="orderForm">
+      <div>
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" name="nome" required>
+      </div>
+      <div>
+        <label for="negocio">Nome do Seu Negócio</label>
+        <input type="text" id="negocio" name="negocio" required>
+      </div>
+      <div>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div>
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone" required>
+      </div>
+      <div>
+        <label for="plano">Escolha seu plano</label>
+        <select id="plano" name="plano" required>
+          <option value="Plano Completo (€99/mês)">Plano Completo (€99/mês) - Banners e Redes Sociais</option>
+          <option value="Plano Básico (€59/mês)">Plano Básico (€59/mês) - Somente Redes Sociais</option>
+        </select>
+      </div>
+      <div>
+        <label for="comprovante">Comprovante de Pagamento (Print ou Recibo)</label>
+        <input type="file" id="comprovante" name="comprovante" accept="image/*,application/pdf" required>
+        <small>Por favor, faça o upload do comprovante e anexe-o ao e-mail gerado.</small>
+      </div>
+      <div class="payment-info">
+        <p><strong>Pagamento via PayPal:</strong> ronald28int@gmail.com</p>
+      </div>
+      <button type="button" onclick="sendEmail()">Enviar Pedido</button>
+    </form>
+  </div>
 
-        function addSquare(event) {
-            const drawingArea = document.getElementById('drawing-area');
-            const square = document.createElement('div');
-            square.classList.add('square');
-            square.style.backgroundColor = selectedColor;
-            square.style.left = `${event.clientX - drawingArea.offsetLeft}px`;
-            square.style.top = `${event.clientY - drawingArea.offsetTop}px`;
-            drawingArea.appendChild(square);
-        }
-    </script>
+  <script>
+    function sendEmail() {
+      // Verifica se todos os campos estão preenchidos antes de enviar o e-mail
+      const nome = document.getElementById('nome').value;
+      const negocio = document.getElementById('negocio').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const plano = document.getElementById('plano').value;
+      const comprovante = document.getElementById('comprovante').files.length;
+
+      // Se algum campo obrigatório estiver vazio, alerta o usuário
+      if (!nome || !negocio || !email || !telefone || !plano || comprovante === 0) {
+        alert("Por favor, preencha todos os campos obrigatórios e faça o upload do comprovante.");
+        return;
+      }
+
+      const subject = encodeURIComponent("Pedido de Serviço - " + plano);
+      const body = encodeURIComponent(
+        `Olá,\n\nSegue os detalhes do pedido:\n\n` +
+        `Nome Completo: ${nome}\n` +
+        `Nome do Negócio: ${negocio}\n` +
+        `E-mail: ${email}\n` +
+        `Telefone: ${telefone}\n` +
+        `Plano Escolhido: ${plano}\n\n` +
+        `Por favor, anexe o comprovante de pagamento ao enviar este e-mail.\n\n` +
+        `Pagamento via PayPal: ronald28int@gmail.com`
+      );
+
+      const mailtoLink = `mailto:ronald28int@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+    }
+  </script>
 </body>
 </html>
