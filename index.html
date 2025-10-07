@@ -1,146 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serviço de Marketing e Divulgação</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cadastro de Anúncio</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      background-color: #4CAF50;
-      color: white;
-    }
-    .container {
-      padding: 20px;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    form div {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .payment-info {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .plans-info {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
+    :root{--accent:#0b84ff;--bg:#f7f9fc;--card:#ffffff;--muted:#586069}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#0b1a2b}
+    .wrap{max-width:720px;margin:0 auto;padding:18px}
+    header{display:flex;align-items:center;gap:12px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 18px;color:var(--muted);font-size:14px}
+    .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(11,24,43,0.06)}
+    label{display:block;font-size:13px;margin-bottom:6px}
+    input[type=text], input[type=tel], input[type=number], textarea, select{width:100%;padding:12px;border-radius:10px;border:1px solid #e6eef8;font-size:15px}
+    textarea{min-height:120px;resize:vertical}
+    .row{display:flex;gap:10px}
+    .col{flex:1}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .actions{display:flex;gap:10px;margin-top:14px}
+    button{flex:1;padding:12px;border-radius:10px;border:0;font-weight:600;font-size:15px;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-secondary{background:#eef5ff;color:var(--accent)}
+    .btn-pay{background:#0bbf6a;color:#fff}
+    .small{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+    footer{margin-top:18px;text-align:center;font-size:12px;color:var(--muted)}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:100;visibility:hidden;opacity:0;transition:opacity .25s, visibility .25s}
+    .modal.show{visibility:visible;opacity:1}
+    .modal-content{background:#fff;border-radius:14px;padding:20px;max-width:320px;width:90%;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,0.2)}
+    .modal-content h2{margin-top:0;font-size:18px}
+    .modal-content p{margin:12px 0;font-size:15px}
+    .modal-content button{margin-top:10px;width:100%}
   </style>
 </head>
 <body>
-  <header>
-    <h1>Marketing e Divulgação Remotos</h1>
-    <p>Preencha o formulário para enviar seu pedido.</p>
-  </header>
-  <div class="container">
-    <!-- Informações dos planos -->
-    <div class="plans-info">
-      <p><strong>Planos Disponíveis:</strong></p>
-      <p><strong>Plano Completo: €99/mês</strong><br>Banners e Redes Sociais</p>
-      <p><strong>Plano Básico: €59/mês</strong><br>Somente Redes Sociais</p>
-    </div>
+  <div class="wrap">
+    <header>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect width="24" height="24" rx="6" fill="#0b84ff"></rect>
+        <path d="M7 14l3-3 7 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div>
+        <h1>Cadastro de Anúncio</h1>
+        <p class="lead">Preencha os dados do anúncio e envie para <strong>ronald28int@gmail.com</strong>.</p>
+      </div>
+    </header>
 
-    <form id="orderForm">
-      <div>
-        <label for="nome">Nome Completo</label>
-        <input type="text" id="nome" name="nome" required>
+    <form id="adForm" class="card" onsubmit="return sendByMailto(event)">
+      <label for="isCompany">Sou empresa</label>
+      <select id="isCompany" aria-label="Sou empresa">
+        <option value="nao">Não</option>
+        <option value="sim">Sim</option>
+      </select>
+
+      <div style="height:12px"></div>
+
+      <label for="name">Nome completo / Nome da empresa *</label>
+      <input id="name" name="name" type="text" placeholder="Ex: Maria Silva ou Loja ABC" required>
+
+      <div style="height:12px"></div>
+
+      <div class="row">
+        <div class="col">
+          <label for="phone">Telefone / WhatsApp *</label>
+          <input id="phone" name="phone" type="tel" placeholder="(99) 9 9999-9999" required>
+        </div>
+        <div class="col">
+          <label for="doc">CNPJ ou CPF *</label>
+          <input id="doc" name="doc" type="text" placeholder="Somente números" required>
+        </div>
       </div>
-      <div>
-        <label for="negocio">Nome do Seu Negócio</label>
-        <input type="text" id="negocio" name="negocio" required>
+
+      <div style="height:12px"></div>
+
+      <label for="title">Título do anúncio *</label>
+      <input id="title" name="title" type="text" placeholder="Ex: Geladeira Inox 2 portas" required>
+
+      <div style="height:12px"></div>
+
+      <label for="description">Descrição *</label>
+      <textarea id="description" name="description" placeholder="Detalhes, estado, garantia, local de retirada..." required></textarea>
+
+      <div style="height:12px"></div>
+
+      <label for="price">Valor (R$) *</label>
+      <input id="price" name="price" type="text" placeholder="Ex: 850.00" inputmode="decimal" required>
+
+      <div class="hint">Os campos com * são obrigatórios. Ao enviar, seu aplicativo de e-mail será aberto com a mensagem pré-preenchida.</div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Enviar por e-mail</button>
+        <button type="button" class="btn-secondary" onclick="openPlanModal()">Pagamento Plano</button>
       </div>
-      <div>
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div>
-        <label for="telefone">Whatsapp</label>
-        <input type="tel" id="telefone" name="telefone" required>
-      </div>
-      <div>
-        <label for="plano">Escolha seu plano</label>
-        <select id="plano" name="plano" required>
-          <option value="Plano Completo (€99/mês)">Plano Completo (€99/mês) - Banners e Redes Sociais</option>
-          <option value="Plano Básico (€59/mês)">Plano Básico (€59/mês) - Somente Redes Sociais</option>
-        </select>
-      </div>
-      <div>
-        <label for="comprovante">Comprovante de Pagamento (Print ou Recibo)</label>
-        <input type="file" id="comprovante" name="comprovante" accept="image/*,application/pdf" required>
-        <small>Por favor, faça o upload do comprovante e anexe-o ao e-mail gerado.</small>
-      </div>
-      <div class="payment-info">
-        <p><strong>Pagamento via PayPal:</strong> ronald28int@gmail.com</p>
-      </div>
-      <button type="button" onclick="sendEmail()">Enviar Pedido</button>
+
+      <div class="small">Dica: se seu celular não abrir o app de e-mail automaticamente, verifique se um cliente de e-mail está configurado.</div>
     </form>
+
+    <footer>
+      Feito para divulgação. 2025 <code></code>
+    </footer>
+  </div>
+
+  <div id="planModal" class="modal">
+    <div class="modal-content">
+      <h2>Plano Mensal</h2>
+      <p>Assine o plano de divulgação por apenas <strong>R$ 9,99/mês</strong>.</p>
+      <button class="btn-pay" onclick="copyPaymentLink()">Copiar link de pagamento</button>
+      <button class="btn-secondary" onclick="closePlanModal()">Fechar</button>
+    </div>
   </div>
 
   <script>
-    function sendEmail() {
-      // Verifica se todos os campos estão preenchidos antes de enviar o e-mail
-      const nome = document.getElementById('nome').value;
-      const negocio = document.getElementById('negocio').value;
-      const email = document.getElementById('email').value;
-      const telefone = document.getElementById('telefone').value;
-      const plano = document.getElementById('plano').value;
-      const comprovante = document.getElementById('comprovante').files.length;
+    const receiver = 'ronald28int@gmail.com';
+    const paymentLink = '00020126360014BR.GOV.BCB.PIX0114+5598981780953520400005303986540599.905802BR5901N6001C62130509Marketing630435BF'; // substitua pelo link real
 
-      // Se algum campo obrigatório estiver vazio, alerta o usuário
-      if (!nome || !negocio || !email || !telefone || !plano || comprovante === 0) {
-        alert("Por favor, preencha todos os campos obrigatórios e faça o upload do comprovante.");
-        return;
+    function sendByMailto(e){
+      e.preventDefault();
+      const data = {
+        isCompany: document.getElementById('isCompany').value,
+        name: document.getElementById('name').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        doc: document.getElementById('doc').value.trim(),
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        price: document.getElementById('price').value.trim()
+      };
+
+      if(!data.name || !data.phone || !data.doc || !data.title || !data.description || !data.price){
+        alert('Por favor preencha todos os campos obrigatórios.');
+        return false;
       }
 
-      const subject = encodeURIComponent("Pedido de Serviço - " + plano);
-      const body = encodeURIComponent(
-        `Olá,\n\nSegue os detalhes do pedido:\n\n` +
-        `Nome Completo: ${nome}\n` +
-        `Nome do Negócio: ${negocio}\n` +
-        `E-mail: ${email}\n` +
-        `Telefone: ${telefone}\n` +
-        `Plano Escolhido: ${plano}\n\n` +
-        `Por favor, anexe o comprovante de pagamento ao enviar este e-mail.\n\n` +
-        `Pagamento via PayPal: ronald28int@gmail.com`
-      );
+      const subject = encodeURIComponent(`Novo anúncio: ${data.title}`);
+      const body = encodeURIComponent([
+        `Tipo: ${data.isCompany === 'sim' ? 'Empresa' : 'Pessoa física'}`,
+        `Nome: ${data.name}`,
+        `Telefone: ${data.phone}`,
+        `CNPJ/CPF: ${data.doc}`,
+        `Título: ${data.title}`,
+        `Descrição: ${data.description}`,
+        `Valor: R$ ${data.price}`,
+        '',
+        'Enviado via formulário de anúncio mobile.'
+      ].join('\n'));
 
-      const mailtoLink = `mailto:ronald28int@gmail.com?subject=${subject}&body=${body}`;
-      window.location.href = mailtoLink;
+      window.location.href = `mailto:${receiver}?subject=${subject}&body=${body}`;
+
+      setTimeout(()=>{
+        alert('Se o app de e-mail não abriu, confirme que possui um cliente de e-mail configurado no seu dispositivo.');
+      }, 700);
+
+      return false;
+    }
+
+    function openPlanModal(){
+      document.getElementById('planModal').classList.add('show');
+    }
+
+    function closePlanModal(){
+      document.getElementById('planModal').classList.remove('show');
+    }
+
+    function copyPaymentLink(){
+      navigator.clipboard.writeText(paymentLink).then(()=>{
+        alert('Link de pagamento copiado! Cole no navegador ou envie para seus clientes.');
+      });
     }
   </script>
 </body>
