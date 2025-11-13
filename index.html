@@ -14,7 +14,7 @@
     p.lead{margin:6px 0 18px;color:var(--muted);font-size:14px}
     .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(11,24,43,0.06)}
     label{display:block;font-size:13px;margin-bottom:6px}
-    input[type=text], input[type=tel], input[type=number], textarea, select{width:100%;padding:12px;border-radius:10px;border:1px solid #e6eef8;font-size:15px}
+    input[type=text], input[type=tel], input[type=number], input[type=file], textarea, select{width:100%;padding:12px;border-radius:10px;border:1px solid #e6eef8;font-size:15px}
     textarea{min-height:120px;resize:vertical}
     .row{display:flex;gap:10px}
     .col{flex:1}
@@ -84,10 +84,12 @@
 
       <div style="height:12px"></div>
 
-      <label for="price">Valor (R$) *</label>
-      <input id="price" name="price" type="text" placeholder="Ex: 850.00" inputmode="decimal" required>
+      <!-- Novo campo de fotos -->
+      <label for="photos">Fotos do produto *</label>
+      <input id="photos" name="photos" type="file" accept="image/*" multiple required>
+      <div class="hint">Envie até 5 fotos do produto (formatos: JPG, PNG ou HEIC).</div>
 
-      <div class="hint">Os campos com * são obrigatórios. Ao enviar, seu aplicativo de e-mail será aberto com a mensagem pré-preenchida.</div>
+      <div class="hint">Os campos com * são obrigatórios. Ao enviar, seu aplicativo de e-mail será aberto com a mensagem pré-preenchida. As fotos devem ser anexadas manualmente.</div>
 
       <div class="actions">
         <button type="submit" class="btn-primary">Enviar por e-mail</button>
@@ -98,14 +100,15 @@
     </form>
 
     <footer>
-      Feito para divulgação. 2025 <code></code>
+      Feito para divulgação. 2025
     </footer>
   </div>
 
   <div id="planModal" class="modal">
     <div class="modal-content">
       <h2>Plano Mensal</h2>
-      <p>Assine o plano de divulgação por apenas <p>Pagamento deve ser feito titular do cadastro.</p></p><strong>R$ R$59,70 por mês</strong>.</p>
+      <p>Assine o plano de divulgação por apenas <strong>R$ 59,70 por mês</strong>.</p>
+      <p>Pagamento deve ser feito pelo titular do cadastro.</p>
       <button class="btn-pay" onclick="copyPaymentLink()">Copiar link de pagamento</button>
       <button class="btn-secondary" onclick="closePlanModal()">Fechar</button>
     </div>
@@ -113,7 +116,7 @@
 
   <script>
     const receiver = 'ronald28int@gmail.com';
-    const paymentLink = '00020126360014BR.GOV.BCB.PIX0114+55989817809535204000053039865406597.005802BR5901N6001C62130509Marketing63047ED2'; // substitua pelo link real
+    const paymentLink = '00020126360014BR.GOV.BCB.PIX0114+55989817809535204000053039865406597.005802BR5901N6001C62130509Marketing63047ED2';
 
     function sendByMailto(e){
       e.preventDefault();
@@ -124,11 +127,16 @@
         doc: document.getElementById('doc').value.trim(),
         title: document.getElementById('title').value.trim(),
         description: document.getElementById('description').value.trim(),
-        price: document.getElementById('price').value.trim()
+        photos: document.getElementById('photos').files
       };
 
-      if(!data.name || !data.phone || !data.doc || !data.title || !data.description || !data.price){
+      if(!data.name || !data.phone || !data.doc || !data.title || !data.description){
         alert('Por favor preencha todos os campos obrigatórios.');
+        return false;
+      }
+
+      if(data.photos.length === 0){
+        alert('Envie pelo menos uma foto do produto.');
         return false;
       }
 
@@ -140,15 +148,16 @@
         `CNPJ/CPF: ${data.doc}`,
         `Título: ${data.title}`,
         `Descrição: ${data.description}`,
-        `Valor: R$ ${data.price}`,
+        '',
+        'Fotos anexadas manualmente.',
         '',
         'Enviado via formulário de anúncio mobile.'
       ].join('\n'));
 
-      window.location.href = `mailto:${receiver}?subject=${subject}&body=${body}`;
+      window.open(`mailto:${receiver}?subject=${subject}&body=${body}`, '_blank');
 
       setTimeout(()=>{
-        alert('Se o app de e-mail não abriu, confirme que possui um cliente de e-mail configurado no seu dispositivo.');
+        alert('Se o app de e-mail não abriu, confirme que possui um cliente de e-mail configurado e anexe as fotos antes de enviar.');
       }, 700);
 
       return false;
